@@ -15,10 +15,14 @@ public class ExampleQuestGUI extends FastInv {
         super(27, "§7Coffre mystérieux");
 
         setItems(getBorders(), new ItemStack(Material.SPRUCE_WOOD));
-        setItem(13, new ItemBuilder(Material.FILLED_MAP).setName("§ePlan de la cité").toItemStack(), inventoryClickEvent -> {
+        ItemStack plan = new ItemBuilder(Material.FILLED_MAP).setName("§ePlan de la cité").toItemStack();
+        setItem(13, plan, inventoryClickEvent -> {
             PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 5);
             p.sendMessage("§b" + p.getName() + "§7: §f\"Il faut que je retourne apporter cette carte au Voyageur.\"");
             p.closeInventory();
+            if (p.getInventory().contains(plan)){
+                p.getInventory().remove(plan);
+            }
         });
         open(p);
     }
