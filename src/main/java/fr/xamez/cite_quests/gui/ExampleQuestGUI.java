@@ -20,9 +20,7 @@ public class ExampleQuestGUI extends FastInv {
             PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 5);
             p.sendMessage("§b" + p.getName() + "§7: §f\"Il faut que je retourne apporter cette carte au Voyageur.\"");
             p.closeInventory();
-            if (p.getInventory().contains(plan)){
-                p.getInventory().remove(plan);
-            }
+            p.getInventory().remove(plan);
         });
         open(p);
     }

@@ -12,15 +12,15 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class OnePeaceQuest {
+public class UnlovedWitch {
 
     private final Quest quest;
 
-    public OnePeaceQuest(CiteQuestCore citeQuestCore){
+    public UnlovedWitch(CiteQuestCore citeQuestCore){
         List<Quest> qList = citeQuestCore.getMANAGER().getQuestList();
-        String ID = "onePeaceQuest";
-        if (qList.stream().anyMatch(q -> q.getIdentifier().equals("onePeaceQuest"))) {
-            this.quest = qList.stream().filter(q -> q.getIdentifier().equals("onePeaceQuest")).findFirst().get();
+        String ID = "unlovedWitch";
+        if (qList.stream().anyMatch(q -> q.getIdentifier().equals("unlovedWitch"))) {
+            this.quest = qList.stream().filter(q -> q.getIdentifier().equals("unlovedWitch")).findFirst().get();
             Bukkit.getLogger().warning("QUEST WITH ID \"" + ID + "\" LOADED!");
         } else {
             Bukkit.getLogger().warning("ERROR! QUEST WITH ID \"" + ID + "\" NOT FOUND! CAN'T BE LOAD");
@@ -29,7 +29,6 @@ public class OnePeaceQuest {
     }
 
     public static void proceed(CiteQuestCore citeQuestCore, Quest quest, Player p, NPC npc) {
-
         final String identifier = quest.getIdentifier();
         int step = Manager.playerQuests.get(p.getUniqueId()).get(identifier) == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get(identifier);
         switch (step){
@@ -37,26 +36,30 @@ public class OnePeaceQuest {
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 0, p, npc);
+
                 }
                 break;
             case 1:
-                MessagesUtil.RPMessage("%npc%§7: §f\"Ne veux-tu pas trouver le fameux One Peace ?!\"", p, npc);
+                MessagesUtil.RPMessage("%npc%§7: §f\"Ne veux-tu pas régler la dispute entre les sorcières en trouvant le lieu de l'ingrédients secret ?!\"", p, npc);
                 break;
             case 2:
-                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
-                    Manager.playerDialogues.add(p.getUniqueId());
-                    MessagesUtil.RPMessage("%npc%§7: §f\"Ne veux-tu pas trouver le fameux One Peace ?!\"", p, npc);
-                }
+                MessagesUtil.RPMessage("%npc%§7: §f\"Ne veux-tu pas régler la dispute entre les sorcières en récuprant l'ingrédient secret ?!\"", p, npc);
                 break;
             case 3:
+                MessagesUtil.RPMessage("%npc%§7: §f\"Vas donc apporter ces ingrédients à la sorcière du marai\"", p, npc);
+                break;
+            case 4:
+                MessagesUtil.RPMessage("%npc%§7: §f\"Vas donc apporter ces ingrédients à la sorcière du village\"", p, npc);
+                break;
+            case 5:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
-                    MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 4);
+                    MessagesUtil.sendDialogues(citeQuestCore, quest, 5, p, npc);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 6);
                     MessagesUtil.sendEndMessage(p, quest, npc);
                 }
                 break;
-            case 4:
+            case 6:
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez déjà terminé cette quête !");
                 break;
 
@@ -69,4 +72,5 @@ public class OnePeaceQuest {
     public Quest getQuest() {
         return this.quest;
     }
+
 }

@@ -1,6 +1,5 @@
 package fr.xamez.cite_quests.quests;
 
-import fr.milekat.cite_core.core.utils.QuestPoints;
 import fr.xamez.cite_quest_core.CiteQuestCore;
 import fr.xamez.cite_quest_core.enumerations.MessagesEnum;
 import fr.xamez.cite_quest_core.managers.Manager;
@@ -11,7 +10,6 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class ExampleQuest {
@@ -31,8 +29,8 @@ public class ExampleQuest {
     }
 
     public static void proceed(CiteQuestCore citeQuestCore, Quest quest, Player p, NPC npc) {
-
-        int step = Manager.playerQuests.get(p.getUniqueId()).get("exampleQuest") == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get("exampleQuest");
+        final String identifier = quest.getIdentifier();
+        int step = Manager.playerQuests.get(p.getUniqueId()).get(identifier) == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get(identifier);
         switch (step){
             case 0:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
@@ -56,7 +54,8 @@ public class ExampleQuest {
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), "exampleQuest", 4);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), identifier, 4);
+
                 }
                 break;
             case 4:
@@ -69,15 +68,8 @@ public class ExampleQuest {
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 5, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), "exampleQuest", 6);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), identifier, 6);
                     MessagesUtil.sendEndMessage(p, quest, npc);
-                    try {
-                        QuestPoints.addPoint(p.getUniqueId(), quest.getPoints());
-                        p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez reçu §6" + quest.getPoints() + " points de quête");
-                    } catch (SQLException throwable) {
-                        Bukkit.getLogger().warning("POINTS OF QUEST \"" + quest.getIdentifier() + "\" FOR " + p + " CAN'T BE ADD");
-                        throwable.printStackTrace();
-                    }
                 }
                 break;
             case 6:
