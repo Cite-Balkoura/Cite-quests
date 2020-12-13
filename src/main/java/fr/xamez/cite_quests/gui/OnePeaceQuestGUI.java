@@ -20,6 +20,7 @@ public class OnePeaceQuestGUI extends FastInv {
             PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 3);
             p.sendMessage("§b" + p.getName() + "§7: §f\"Il faut que je ramène cet objet à Phifi pour analyse, c’est probablement le trésor dont il m’a parlé !\"");
             p.closeInventory();
+            p.updateInventory();
             p.getInventory().remove(totem);
             p.getInventory().addItem(totem);
         });

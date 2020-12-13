@@ -17,12 +17,12 @@ import java.util.List;
 public class BienvenueEquipageQuest {
 
     private final Quest quest;
+    public final static String ID = "Bienvenue dans l’équipage";
 
     public BienvenueEquipageQuest(CiteQuestCore citeQuestCore){
         List<Quest> qList = citeQuestCore.getMANAGER().getQuestList();
-        String ID = "bienvenueEquipageQuest";
-        if (qList.stream().anyMatch(q -> q.getIdentifier().equals("bienvenueEquipageQuest"))) {
-            this.quest = qList.stream().filter(q -> q.getIdentifier().equals("bienvenueEquipageQuest")).findFirst().get();
+        if (qList.stream().anyMatch(q -> q.getIdentifier().equals(ID))) {
+            this.quest = qList.stream().filter(q -> q.getIdentifier().equals(ID)).findFirst().get();
             Bukkit.getLogger().warning("QUEST WITH ID \"" + ID + "\" LOADED!");
         } else {
             Bukkit.getLogger().warning("ERROR! QUEST WITH ID \"" + ID + "\" NOT FOUND! CAN'T BE LOAD");
@@ -31,8 +31,7 @@ public class BienvenueEquipageQuest {
     }
 
     public static void proceed(CiteQuestCore citeQuestCore, Quest quest, Player p, NPC npc) {
-        final String identifier = quest.getIdentifier();
-        int step = Manager.playerQuests.get(p.getUniqueId()).get(identifier) == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get(identifier);
+        int step = Manager.playerQuests.get(p.getUniqueId()).get(ID) == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get(ID);
         switch (step){
             case 0:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
@@ -49,10 +48,10 @@ public class BienvenueEquipageQuest {
                             p.getInventory().remove(berry);
                             p.sendMessage("§oVos berries vous ont été retiré.");
                             MessagesUtil.sendDialogues(citeQuestCore, quest, 1, p, npc);
-                            PlayerManager.updatePlayerStep(p.getUniqueId(), identifier, 2);
+                            PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 2);
                         }
                     } else {
-                        MessagesUtil.RPMessage("%npc%§7: §f\"Commence par me trouver 16 berry\"", p, npc);
+                        MessagesUtil.sendRPMessage("%npc%§7: §f\"Commence par me trouver 16 berry\"", p, npc);
                     }
                 }
                 break;
@@ -65,10 +64,10 @@ public class BienvenueEquipageQuest {
                             p.getInventory().remove(gold);
                             p.sendMessage("§oVos berries d'or vous ont été retiré.");
                             MessagesUtil.sendDialogues(citeQuestCore, quest, 2, p, npc);
-                            PlayerManager.updatePlayerStep(p.getUniqueId(), identifier, 3);
+                            PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 3);
                         }
                     } else {
-                        MessagesUtil.RPMessage("%npc%§7: §f\"Rapport moi 16 pépites d'or !\"", p, npc);
+                        MessagesUtil.sendRPMessage("%npc%§7: §f\"Rapport moi 16 pépites d'or !\"", p, npc);
                     }
                 }
                 break;
@@ -81,10 +80,10 @@ public class BienvenueEquipageQuest {
                             p.getInventory().remove(fish);
                             p.sendMessage("§oVotre nénuphar vous ont été retiré.");
                             MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
-                            PlayerManager.updatePlayerStep(p.getUniqueId(), identifier, 4);
+                            PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 4);
                         }
                     } else {
-                        MessagesUtil.RPMessage("%npc%§7: §f\"Ramène moi un nénuphar !\"", p, npc);
+                        MessagesUtil.sendRPMessage("%npc%§7: §f\"Ramène moi un nénuphar !\"", p, npc);
                     }
                 }
                 break;
@@ -92,7 +91,7 @@ public class BienvenueEquipageQuest {
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 4, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), identifier, 5);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 5);
                     MessagesUtil.sendEndMessage(p, quest, npc);
                 }
                 break;
@@ -103,10 +102,9 @@ public class BienvenueEquipageQuest {
             default:
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cErreur inattendu ! Veillez conntacter un membre du staff.");
         }
-
     }
 
     public Quest getQuest() {
-        return this.quest;
+        return quest;
     }
 }

@@ -15,12 +15,12 @@ import java.util.List;
 public class UnlovedWitch {
 
     private final Quest quest;
+    public final static String ID = "Sorcière mal aimée";
 
     public UnlovedWitch(CiteQuestCore citeQuestCore){
         List<Quest> qList = citeQuestCore.getMANAGER().getQuestList();
-        String ID = "unlovedWitch";
-        if (qList.stream().anyMatch(q -> q.getIdentifier().equals("unlovedWitch"))) {
-            this.quest = qList.stream().filter(q -> q.getIdentifier().equals("unlovedWitch")).findFirst().get();
+        if (qList.stream().anyMatch(q -> q.getIdentifier().equals(ID))) {
+            this.quest = qList.stream().filter(q -> q.getIdentifier().equals(ID)).findFirst().get();
             Bukkit.getLogger().warning("QUEST WITH ID \"" + ID + "\" LOADED!");
         } else {
             Bukkit.getLogger().warning("ERROR! QUEST WITH ID \"" + ID + "\" NOT FOUND! CAN'T BE LOAD");
@@ -29,27 +29,25 @@ public class UnlovedWitch {
     }
 
     public static void proceed(CiteQuestCore citeQuestCore, Quest quest, Player p, NPC npc) {
-        final String identifier = quest.getIdentifier();
-        int step = Manager.playerQuests.get(p.getUniqueId()).get(identifier) == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get(identifier);
+        int step = Manager.playerQuests.get(p.getUniqueId()).get(ID) == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get(ID);
         switch (step){
             case 0:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 0, p, npc);
-
                 }
                 break;
             case 1:
-                MessagesUtil.RPMessage("%npc%§7: §f\"Ne veux-tu pas régler la dispute entre les sorcières en trouvant le lieu de l'ingrédients secret ?!\"", p, npc);
+                MessagesUtil.sendRPMessage("%npc%§7: §f\"Ne veux-tu pas régler la dispute entre les sorcières en trouvant le lieu de l'ingrédients secret ?!\"", p, npc);
                 break;
             case 2:
-                MessagesUtil.RPMessage("%npc%§7: §f\"Ne veux-tu pas régler la dispute entre les sorcières en récuprant l'ingrédient secret ?!\"", p, npc);
+                MessagesUtil.sendRPMessage("%npc%§7: §f\"Ne veux-tu pas régler la dispute entre les sorcières en récuprant l'ingrédient secret ?!\"", p, npc);
                 break;
             case 3:
-                MessagesUtil.RPMessage("%npc%§7: §f\"Vas donc apporter ces ingrédients à la sorcière du marai\"", p, npc);
+                MessagesUtil.sendRPMessage("%npc%§7: §f\"Vas donc apporter ces ingrédients à la sorcière du marai\"", p, npc);
                 break;
             case 4:
-                MessagesUtil.RPMessage("%npc%§7: §f\"Vas donc apporter ces ingrédients à la sorcière du village\"", p, npc);
+                MessagesUtil.sendRPMessage("%npc%§7: §f\"Vas donc apporter ces ingrédients à la sorcière du village\"", p, npc);
                 break;
             case 5:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {

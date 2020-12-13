@@ -15,12 +15,12 @@ import java.util.List;
 public class ExampleQuest {
 
     private final Quest quest;
+    public final static String ID = "Commencement du voyage";
 
     public ExampleQuest(CiteQuestCore citeQuestCore){
         List<Quest> qList = citeQuestCore.getMANAGER().getQuestList();
-        String ID = "exampleQuest";
-        if (qList.stream().anyMatch(q -> q.getIdentifier().equals("exampleQuest"))) {
-            this.quest = qList.stream().filter(q -> q.getIdentifier().equals("exampleQuest")).findFirst().get();
+        if (qList.stream().anyMatch(q -> q.getIdentifier().equals(ID))) {
+            this.quest = qList.stream().filter(q -> q.getIdentifier().equals(ID)).findFirst().get();
             Bukkit.getLogger().warning("QUEST WITH ID \"" + ID + "\" LOADED!");
         } else {
             Bukkit.getLogger().warning("ERROR! QUEST WITH ID \"" + ID + "\" NOT FOUND! CAN'T BE LOAD");
@@ -29,8 +29,7 @@ public class ExampleQuest {
     }
 
     public static void proceed(CiteQuestCore citeQuestCore, Quest quest, Player p, NPC npc) {
-        final String identifier = quest.getIdentifier();
-        int step = Manager.playerQuests.get(p.getUniqueId()).get(identifier) == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get(identifier);
+        int step = Manager.playerQuests.get(p.getUniqueId()).get(ID) == null ? 0 : Manager.playerQuests.get(p.getUniqueId()).get(ID);
         switch (step){
             case 0:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
@@ -54,7 +53,7 @@ public class ExampleQuest {
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), identifier, 4);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 4);
 
                 }
                 break;
@@ -68,7 +67,7 @@ public class ExampleQuest {
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 5, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), identifier, 6);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 6);
                     MessagesUtil.sendEndMessage(p, quest, npc);
                 }
                 break;
@@ -80,7 +79,6 @@ public class ExampleQuest {
             default:
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cErreur inattendu ! Veillez conntacter un membre du staff.");
         }
-
     }
 
     public Quest getQuest() {

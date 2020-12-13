@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+
 public class ExampleQuestGUI extends FastInv {
 
     public ExampleQuestGUI(Player p, Quest quest) {
@@ -20,6 +22,7 @@ public class ExampleQuestGUI extends FastInv {
             PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 5);
             p.sendMessage("§b" + p.getName() + "§7: §f\"Il faut que je retourne apporter cette carte au Voyageur.\"");
             p.closeInventory();
+            p.updateInventory();
             p.getInventory().remove(plan);
         });
         open(p);
