@@ -9,8 +9,6 @@ import fr.xamez.cite_quest_core.utils.MessagesUtil;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryType;
-import org.bukkit.inventory.Inventory;
 
 import java.util.List;
 

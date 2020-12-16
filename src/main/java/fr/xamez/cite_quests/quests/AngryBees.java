@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-
 import java.util.List;
 
 public class AngryBees {
@@ -112,6 +111,7 @@ public class AngryBees {
                     meta.setColor(Color.ORANGE);
                     item.setItemMeta(meta);
                     for (ItemStack content : p.getInventory().getContents()) {
+                        if (content == null) { continue; }
                         if (content.equals(item)){
                             p.getInventory().remove(content);
                         }

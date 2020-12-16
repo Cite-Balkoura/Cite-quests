@@ -1,5 +1,6 @@
 package fr.xamez.cite_quests.quests;
 
+import fr.milekat.cite_libs.MainLibs;
 import fr.xamez.cite_quest_core.CiteQuestCore;
 import fr.xamez.cite_quest_core.enumerations.MessagesEnum;
 import fr.xamez.cite_quest_core.managers.Manager;
@@ -10,14 +11,18 @@ import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
-public class ExampleQuest {
+public class ForestOfWolves {
 
     private final Quest quest;
-    public final static String ID = "Commencement du voyage";
+    public final static String ID = "La forêt des loups";
 
-    public ExampleQuest(CiteQuestCore citeQuestCore){
+    public ForestOfWolves(CiteQuestCore citeQuestCore){
         List<Quest> qList = citeQuestCore.getMANAGER().getQuestList();
         if (qList.stream().anyMatch(q -> q.getIdentifier().equals(ID))) {
             this.quest = qList.stream().filter(q -> q.getIdentifier().equals(ID)).findFirst().get();
@@ -38,40 +43,18 @@ public class ExampleQuest {
                 }
                 break;
             case 1:
-                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
-                    Manager.playerDialogues.add(p.getUniqueId());
-                    MessagesUtil.sendDialogues(citeQuestCore, quest, 1, p, npc);
+                if (getKills(p.getUniqueId()) >= 10) {
+                    if (!Manager.playerDialogues.contains(p.getUniqueId())) {
+                        Manager.playerDialogues.add(p.getUniqueId());
+                        MessagesUtil.sendDialogues(citeQuestCore, quest, 1, p, npc);
+                        PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 2);
+                        MessagesUtil.sendEndMessage(p, quest, npc);
+                    }
+                } else {
+                    MessagesUtil.sendRPMessage("%npc%§7: §f\"Élimine toutes la horde et reviens me voir !\"", p, npc);
                 }
                 break;
             case 2:
-                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
-                    Manager.playerDialogues.add(p.getUniqueId());
-                    MessagesUtil.sendDialogues(citeQuestCore, quest, 2, p, npc);
-                }
-                break;
-            case 3:
-                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
-                    Manager.playerDialogues.add(p.getUniqueId());
-                    MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 4);
-
-                }
-                break;
-            case 4:
-                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
-                    Manager.playerDialogues.add(p.getUniqueId());
-                    MessagesUtil.sendDialogues(citeQuestCore, quest, 4, p, npc);
-                }
-                break;
-            case 5:
-                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
-                    Manager.playerDialogues.add(p.getUniqueId());
-                    MessagesUtil.sendDialogues(citeQuestCore, quest, 5, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 6);
-                    MessagesUtil.sendEndMessage(p, quest, npc);
-                }
-                break;
-            case 6:
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez déjà terminé cette quête !");
                 break;
 
@@ -83,4 +66,23 @@ public class ExampleQuest {
     public Quest getQuest() {
         return this.quest;
     }
+
+    public static int getKills(UUID uuid) {
+        Connection connection = MainLibs.getSql();
+        int kills = 0;
+        try {
+            PreparedStatement q = connection.prepareStatement("SELECT * FROM `balkoura_quest_wolves` WHERE `player_id` = " +
+                    "(SELECT `player_id` FROM `balkoura_player` WHERE `uuid` = '" + uuid.toString() + "');");
+            q.execute();
+            if (q.getResultSet().first()) {
+                kills = q.getResultSet().getInt("kills");
+            }
+            q.close();
+        } catch (SQLException throwable) {
+            Bukkit.getLogger().warning(MessagesEnum.PREFIX_CONSOLE.getText() + "Erreur lors de la récupération des kills pour la quête des loups pour: " + uuid);
+            throwable.printStackTrace();
+        }
+        return kills;
+    }
+
 }

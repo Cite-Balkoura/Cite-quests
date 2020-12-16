@@ -17,6 +17,7 @@ public class QuestRegistration {
         this.questList.put(OnePeaceQuest.ID, new OnePeaceQuest(instance));
         this.questList.put(UnlovedWitch.ID, new UnlovedWitch(instance));
         this.questList.put(AngryBees.ID, new AngryBees(instance));
+        this.questList.put(ForestOfWolves.ID, new ForestOfWolves(instance));
     }
 
     public Map<String, Object> getQuestList() {

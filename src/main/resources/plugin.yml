@@ -5,8 +5,3 @@ author: Xamez
 api-version: 1.16
 depend:
   - Cite-quest-core
-commands:
-  quest:
-    description: Ouvre l'interface des qûetes
-    aliases: [q, quete]
-  tcc:
