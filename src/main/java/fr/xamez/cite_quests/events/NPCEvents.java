@@ -65,7 +65,6 @@ public class NPCEvents implements Listener {
 
             // "unlovedWitch" QUEST
         } else if (npc.getId() == 26) {
-
             final Quest quest = ((UnlovedWitch) CiteQuests.getQuestRegistration().getQuestList().get(UnlovedWitch.ID)).getQuest();
             if (quest != null) {
                 ExampleQuest.proceed(CiteQuestCore.getInstance(), quest, p, npc);
@@ -73,7 +72,7 @@ public class NPCEvents implements Listener {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
             }
 
-        } else if (npc.getId() == 28){
+        } else if (npc.getId() == 53){
             final Quest quest = ((UnlovedWitch) CiteQuests.getQuestRegistration().getQuestList().get(UnlovedWitch.ID)).getQuest();
             if (quest == null) {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
@@ -90,7 +89,7 @@ public class NPCEvents implements Listener {
                 }
             }
 
-        } else if (npc.getId() == 27){
+        } else if (npc.getId() == 51){
             final Quest quest = ((UnlovedWitch) CiteQuests.getQuestRegistration().getQuestList().get(UnlovedWitch.ID)).getQuest();
             if (quest == null) {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
@@ -143,14 +142,52 @@ public class NPCEvents implements Listener {
                     }
                 }
             }
+        // FOREST QUEST
         } else if (npc.getId() == 48){
-
             final Quest quest = ((ForestOfWolves) CiteQuests.getQuestRegistration().getQuestList().get(ForestOfWolves.ID)).getQuest();
             if (quest == null) {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
                 return;
             }
             ForestOfWolves.proceed(CiteQuestCore.getInstance(), quest, p, npc);
+        // GOODFRANKNESS QUEST
+        } else if (npc.getId() == 49){
+            final Quest quest = ((GoodFrankness) CiteQuests.getQuestRegistration().getQuestList().get(GoodFrankness.ID)).getQuest();
+            if (quest == null) {
+                p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
+                return;
+            }
+            GoodFrankness.proceed(CiteQuestCore.getInstance(), quest, p, npc);
+        // ANGEL QUEST
+        } else if (npc.getId() == 50 || npc.getId() == 51 || npc.getId() == 52){
+
+            final Quest quest = ((AngelSaints) CiteQuests.getQuestRegistration().getQuestList().get(AngelSaints.ID)).getQuest();
+            if (quest == null) {
+                p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
+                return;
+            }
+            if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == null) {
+                return;
+            }
+            if (npc.getId() == 50) {
+                if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == 1 ||
+                        Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == 2) {
+                    return;
+                }
+            }
+            if (npc.getId() == 51) {
+                if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) != 1) { return; }
+            }
+            AngelSaints.proceed(CiteQuestCore.getInstance(), quest, p, npc);
+
+        // SILENCEGROW QUEST
+        } else if (npc.getId() == 53){
+            final Quest quest = ((SilenceGrow) CiteQuests.getQuestRegistration().getQuestList().get(SilenceGrow.ID)).getQuest();
+            if (quest == null) {
+                p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
+                return;
+            }
+            SilenceGrow.proceed(CiteQuestCore.getInstance(), quest, p, npc);
         }
     }
 }
