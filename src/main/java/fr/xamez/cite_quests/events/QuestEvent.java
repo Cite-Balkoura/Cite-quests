@@ -10,17 +10,17 @@ import fr.xamez.cite_quests.gui.OnePeaceQuestGUI;
 import fr.xamez.cite_quests.quests.AngryBees;
 import fr.xamez.cite_quests.quests.ExampleQuest;
 import fr.xamez.cite_quests.quests.OnePeaceQuest;
-import fr.xamez.cite_quests.quests.UnlovedWitch;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.LingeringPotionSplashEvent;
-import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -53,6 +53,7 @@ public class QuestEvent implements Listener {
             if (block.getLocation().equals(new Location(Bukkit.getWorld("world"), -3, 155, 16))) {
                 if (Manager.playerQuests.get(p.getUniqueId()).get(ExampleQuest.ID) != null) {
                     if (Manager.playerQuests.get(p.getUniqueId()).get(ExampleQuest.ID) == 2) {
+                        e.setCancelled(true);
                         p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oVous avez reçu une clé mystérieuse !");
                         PlayerManager.updatePlayerStep(p.getUniqueId(), ExampleQuest.ID, 3);
                     }
@@ -63,44 +64,15 @@ public class QuestEvent implements Listener {
         if (block.getType().equals(Material.WHITE_SHULKER_BOX)){
             if (block.getLocation().equals(new Location(Bukkit.getWorld("world"), -165, 135, 71))) {
                 if (Manager.playerQuests.get(p.getUniqueId()).get(OnePeaceQuest.ID) != null) {
+                    e.setCancelled(true);
                     if (Manager.playerQuests.get(p.getUniqueId()).get(OnePeaceQuest.ID) == 1) {
                         p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oVous remarquer que la toile du moulin est étrange à cet endroit..");
                         p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oIl semble y avoir une pochette renfermant quelque chose, essayez d’ouvrir la poche pour saisir l’objet");
                         PlayerManager.updatePlayerStep(p.getUniqueId(), OnePeaceQuest.ID, 2);
-                    } else if (Manager.playerQuests.get(p.getUniqueId()).get(OnePeaceQuest.ID) == 3){
+                    } else if (Manager.playerQuests.get(p.getUniqueId()).get(OnePeaceQuest.ID) == 2){
                         p.closeInventory();
                         new OnePeaceQuestGUI(p, ((OnePeaceQuest) CiteQuests.getQuestRegistration().getQuestList().get(OnePeaceQuest.ID)).getQuest());
                     }
-                }
-            }
-        }
-
-        if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)){
-            if (p.getWorld().getEnvironment().equals(World.Environment.THE_END)) {
-                if (p.getInventory().contains(Material.DRAGON_BREATH)) {
-                    if (Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) != null) {
-                        if (Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) == 2) {
-                            if (p.getInventory().contains(Material.DRAGON_BREATH, 1)) {
-                                p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oJe pense que 32 fioles de ce souffle devraient suffir à régler la dispute entre les sorcières, dès que j’ai les fioles j’irai rendre visite au sorcières.");
-                            } else if (p.getInventory().contains(Material.DRAGON_BREATH, 32)){
-                                p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oParfait j'ai récupéré tout ce qu'il me fallait !");
-                                PlayerManager.updatePlayerStep(p.getUniqueId(), UnlovedWitch.ID, 3);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @EventHandler
-    public void worldChangeEvent(PlayerChangedWorldEvent e){
-        Player p = e.getPlayer();
-        if (p.getWorld().getEnvironment().equals(World.Environment.THE_END)){
-            if (Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) != null) {
-                if (Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) == 1) {
-                    p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oCet endroit est étrange.. Il y a probablement le monstre rare dont Waldo m’a parlé !");
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), UnlovedWitch.ID, 2);
                 }
             }
         }
@@ -109,6 +81,7 @@ public class QuestEvent implements Listener {
     @EventHandler
     public void onPotionSplash(LingeringPotionSplashEvent e) {
         Player p = (Player) e.getEntity().getShooter();
+
         ItemStack potion = e.getEntity().getItem();
         if (potion.getItemMeta().getDisplayName().equals("§6Encens")) {
             e.getAreaEffectCloud().setDuration(30);
@@ -139,5 +112,4 @@ public class QuestEvent implements Listener {
             }
         }
     }
-
 }

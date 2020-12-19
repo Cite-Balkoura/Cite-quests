@@ -46,7 +46,7 @@ public class GoodFrankness {
                         if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                             Manager.playerDialogues.add(p.getUniqueId());
                             p.getInventory().remove(wheat);
-                            p.sendMessage("§oVotre blés vous a été retiré.");
+                            p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oVotre blés vous a été retiré.");
                             MessagesUtil.sendDialogues(citeQuestCore, quest, 1, p, npc);
                             PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 2);
                             MessagesUtil.sendEndMessage(p, quest, npc);
@@ -55,6 +55,7 @@ public class GoodFrankness {
                         MessagesUtil.sendRPMessage("%npc%§7: §f\"Ramène moi 64 blés s'il te plait\"", p, npc);
                     }
                 }
+                break;
             case 2:
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez déjà terminé cette quête !");
                 break;

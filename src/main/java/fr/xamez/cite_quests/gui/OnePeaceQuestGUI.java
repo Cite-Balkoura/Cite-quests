@@ -16,12 +16,12 @@ public class OnePeaceQuestGUI extends FastInv {
         super(InventoryType.DISPENSER, "§7Pochette secrète");
         setItems(getBorders(), new ItemStack(Material.WHITE_STAINED_GLASS_PANE));
         ItemStack totem = new ItemBuilder(Material.TOTEM_OF_UNDYING).setName("§eLe One Peace").toItemStack();
-        setItem(13, totem, inventoryClickEvent -> {
+        setItem(4, totem, inventoryClickEvent -> {
             PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 3);
             p.sendMessage("§b" + p.getName() + "§7: §f\"Il faut que je ramène cet objet à Phifi pour analyse, c’est probablement le trésor dont il m’a parlé !\"");
             p.closeInventory();
             p.updateInventory();
-            p.getInventory().remove(totem);
+            p.getInventory().removeItem(totem);
             p.getInventory().addItem(totem);
         });
         open(p);

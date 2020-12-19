@@ -42,11 +42,11 @@ public class BienvenueEquipageQuest {
             case 1:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     ItemStack berry = new ItemStack(Material.SWEET_BERRIES, 16);
-                    if (p.getInventory().contains(berry)) {
+                    if (p.getInventory().containsAtLeast(new ItemStack(Material.SWEET_BERRIES), 16)) {
                         if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                             Manager.playerDialogues.add(p.getUniqueId());
-                            p.getInventory().remove(berry);
-                            p.sendMessage("§oVos berries vous ont été retiré.");
+                            p.getInventory().removeItem(berry);
+                            p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oVos berries vous ont été retiré.");
                             MessagesUtil.sendDialogues(citeQuestCore, quest, 1, p, npc);
                             PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 2);
                         }
@@ -58,11 +58,11 @@ public class BienvenueEquipageQuest {
             case 2:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     ItemStack gold = new ItemStack(Material.GOLD_NUGGET, 16);
-                    if (p.getInventory().contains(gold)) {
+                    if (p.getInventory().containsAtLeast(new ItemStack(Material.GOLD_NUGGET), 16)) {
                         if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                             Manager.playerDialogues.add(p.getUniqueId());
-                            p.getInventory().remove(gold);
-                            p.sendMessage("§oVos berries d'or vous ont été retiré.");
+                            p.getInventory().removeItem(gold);
+                            p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oVos berries d'or vous ont été retiré.");
                             MessagesUtil.sendDialogues(citeQuestCore, quest, 2, p, npc);
                             PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 3);
                         }
@@ -73,12 +73,12 @@ public class BienvenueEquipageQuest {
                 break;
             case 3:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
-                    ItemStack fish = new ItemStack(Material.LILY_PAD, 16);
-                    if (p.getInventory().contains(fish)) {
+                    ItemStack lily = new ItemStack(Material.LILY_PAD, 1);
+                    if (p.getInventory().containsAtLeast(new ItemStack(Material.LILY_PAD), 1)) {
                         if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                             Manager.playerDialogues.add(p.getUniqueId());
-                            p.getInventory().remove(fish);
-                            p.sendMessage("§oVotre nénuphar vous ont été retiré.");
+                            p.getInventory().removeItem(lily);
+                            p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oVos nénuphar vous ont été retiré.");
                             MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
                             PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 4);
                         }

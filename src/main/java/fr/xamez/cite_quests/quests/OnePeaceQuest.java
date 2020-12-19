@@ -50,7 +50,7 @@ public class OnePeaceQuest {
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 4);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 4);
                     MessagesUtil.sendEndMessage(p, quest, npc);
                 }
                 break;

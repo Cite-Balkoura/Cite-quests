@@ -55,6 +55,10 @@ public class NPCEvents implements Listener {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
                 return;
             }
+            if (Manager.playerQuests.get(p.getUniqueId()).get(BienvenueEquipageQuest.ID) == null) {
+                BienvenueEquipageQuest.proceed(CiteQuestCore.getInstance(), q2, p, npc);
+                return;
+            }
             if (this.manager.getQuestManager().isQuestOver(p, BienvenueEquipageQuest.ID)) {
                 // "onePeaceQuest" QUEST
                 OnePeaceQuest.proceed(CiteQuestCore.getInstance(), q1, p, npc);
@@ -67,7 +71,14 @@ public class NPCEvents implements Listener {
         } else if (npc.getId() == 26) {
             final Quest quest = ((UnlovedWitch) CiteQuests.getQuestRegistration().getQuestList().get(UnlovedWitch.ID)).getQuest();
             if (quest != null) {
-                ExampleQuest.proceed(CiteQuestCore.getInstance(), quest, p, npc);
+                if (Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) != null) {
+                    if (Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) == 3 ||
+                        Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) == 4) {
+                        MessagesUtil.sendRPMessage("%npc%§7: §f\"Aide moi à retrouver ma bien-aimée\"", p, npc);
+                        return;
+                    }
+                }
+                UnlovedWitch.proceed(CiteQuestCore.getInstance(), quest, p, npc);
             } else {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
             }
@@ -82,7 +93,6 @@ public class NPCEvents implements Listener {
                 if (Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) == 3) {
                     if (p.getInventory().contains(Material.DRAGON_BREATH, 16)) {
                         UnlovedWitch.proceed(CiteQuestCore.getInstance(), quest, p, npc);
-                        PlayerManager.updatePlayerStep(p.getUniqueId(), UnlovedWitch.ID, 4);
                     } else {
                         MessagesUtil.sendRPMessage("%npc%§7: §f\"Je n'aime pas être dérangé\"", p, npc);
                     }
@@ -90,6 +100,7 @@ public class NPCEvents implements Listener {
             }
 
         } else if (npc.getId() == 51){
+            // WITCH QUEST
             final Quest quest = ((UnlovedWitch) CiteQuests.getQuestRegistration().getQuestList().get(UnlovedWitch.ID)).getQuest();
             if (quest == null) {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
@@ -99,10 +110,21 @@ public class NPCEvents implements Listener {
                 if (Manager.playerQuests.get(p.getUniqueId()).get(UnlovedWitch.ID) == 4) {
                     if (p.getInventory().contains(Material.DRAGON_BREATH, 16)) {
                         UnlovedWitch.proceed(CiteQuestCore.getInstance(), quest, p, npc);
-                        PlayerManager.updatePlayerStep(p.getUniqueId(), UnlovedWitch.ID, 5);
                     } else {
                         MessagesUtil.sendRPMessage("%npc%§7: §f\"Je n'aime pas le monde... Bah alors, qu-est-ce que tu regardes ?\"", p, npc);
                     }
+                    return;
+                }
+            }
+            // ANGEL QUEST
+            final Quest q1 = ((AngelSaints) CiteQuests.getQuestRegistration().getQuestList().get(AngelSaints.ID)).getQuest();
+            if (q1 == null) {
+                p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
+                return;
+            }
+            if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) != null) {
+                if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == 2) {
+                    AngelSaints.proceed(CiteQuestCore.getInstance(), q1, p, npc);
                 }
             }
             // "angryBees" QUEST
@@ -159,29 +181,28 @@ public class NPCEvents implements Listener {
             }
             GoodFrankness.proceed(CiteQuestCore.getInstance(), quest, p, npc);
         // ANGEL QUEST
-        } else if (npc.getId() == 50 || npc.getId() == 51 || npc.getId() == 52){
-
+        } else if (npc.getId() == 50 || npc.getId() == 52){
             final Quest quest = ((AngelSaints) CiteQuests.getQuestRegistration().getQuestList().get(AngelSaints.ID)).getQuest();
             if (quest == null) {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");
                 return;
             }
             if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == null) {
+                AngelSaints.proceed(CiteQuestCore.getInstance(), quest, p, npc);
                 return;
             }
             if (npc.getId() == 50) {
-                if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == 1 ||
-                        Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == 2) {
+                if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == 2 ||
+                        Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) == 3) {
                     return;
                 }
             }
-            if (npc.getId() == 51) {
-                if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) != 1) { return; }
+            if (npc.getId() == 52) {
+                if (Manager.playerQuests.get(p.getUniqueId()).get(AngelSaints.ID) != 3) { return; }
             }
             AngelSaints.proceed(CiteQuestCore.getInstance(), quest, p, npc);
-
         // SILENCEGROW QUEST
-        } else if (npc.getId() == 53){
+        } else if (npc.getId() == 18){
             final Quest quest = ((SilenceGrow) CiteQuests.getQuestRegistration().getQuestList().get(SilenceGrow.ID)).getQuest();
             if (quest == null) {
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§cNous sommes désolé par la gêne occasionné mais cette quête à un problème, veuillez contacter un membre du staff (Modérateur ou Administrateur)");

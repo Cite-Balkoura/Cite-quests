@@ -8,14 +8,16 @@ import fr.xamez.cite_quest_core.objects.Quest;
 import fr.xamez.cite_quest_core.utils.MessagesUtil;
 import net.citizensnpcs.api.npc.NPC;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
 public class UnlovedWitch {
 
     private final Quest quest;
-    public final static String ID = "Sorcière mal aimée";
+    public final static String ID = "Ma sorcière mal aimée";
 
     public UnlovedWitch(CiteQuestCore citeQuestCore){
         List<Quest> qList = citeQuestCore.getMANAGER().getQuestList();
@@ -44,16 +46,28 @@ public class UnlovedWitch {
                 MessagesUtil.sendRPMessage("%npc%§7: §f\"Ne veux-tu pas régler la dispute entre les sorcières en récuprant l'ingrédient secret ?!\"", p, npc);
                 break;
             case 3:
-                MessagesUtil.sendRPMessage("%npc%§7: §f\"Vas donc apporter ces ingrédients à la sorcière du marai\"", p, npc);
+                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
+                    Manager.playerDialogues.add(p.getUniqueId());
+                    MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
+                    p.getInventory().removeItem(new ItemStack(Material.DRAGON_BREATH, 16));
+                    p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§o16 de vos potions de souffle de dragons vous ont été retiré.");
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 4);
+                }
                 break;
             case 4:
-                MessagesUtil.sendRPMessage("%npc%§7: §f\"Vas donc apporter ces ingrédients à la sorcière du village\"", p, npc);
+                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
+                    Manager.playerDialogues.add(p.getUniqueId());
+                    MessagesUtil.sendDialogues(citeQuestCore, quest, 4, p, npc);
+                    p.getInventory().removeItem(new ItemStack(Material.DRAGON_BREATH, 16));
+                    p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§o16 de vos potions de souffle de dragons vous ont été retiré.");
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 5);
+                }
                 break;
             case 5:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 5, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 6);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 6);
                     MessagesUtil.sendEndMessage(p, quest, npc);
                 }
                 break;

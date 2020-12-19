@@ -23,7 +23,7 @@ public class ExampleQuestGUI extends FastInv {
             p.sendMessage("§b" + p.getName() + "§7: §f\"Il faut que je retourne apporter cette carte au Voyageur.\"");
             p.closeInventory();
             p.updateInventory();
-            p.getInventory().remove(plan);
+            p.getInventory().removeItem(plan);
         });
         open(p);
     }

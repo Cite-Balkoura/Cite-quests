@@ -47,21 +47,26 @@ public class AngelSaints {
                 }
                 break;
             case 2:
-                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
-                    Manager.playerDialogues.add(p.getUniqueId());
-                    MessagesUtil.sendDialogues(citeQuestCore, quest, 2, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 3);
-                }
+                Manager.playerDialogues.add(p.getUniqueId());
+                MessagesUtil.sendDialogues(citeQuestCore, quest, 2, p, npc);
+                PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 3);
                 break;
             case 3:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     Manager.playerDialogues.add(p.getUniqueId());
                     MessagesUtil.sendDialogues(citeQuestCore, quest, 3, p, npc);
-                    PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 4);
-                    MessagesUtil.sendEndMessage(p, quest, npc);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 4);
                 }
                 break;
             case 4:
+                if (!Manager.playerDialogues.contains(p.getUniqueId())) {
+                    Manager.playerDialogues.add(p.getUniqueId());
+                    MessagesUtil.sendDialogues(citeQuestCore, quest, 4, p, npc);
+                    PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 5);
+                    MessagesUtil.sendEndMessage(p, quest, npc);
+                }
+                break;
+            case 5:
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez déjà terminé cette quête !");
                 break;
 

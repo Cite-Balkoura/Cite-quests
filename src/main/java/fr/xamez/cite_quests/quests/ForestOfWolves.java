@@ -47,7 +47,7 @@ public class ForestOfWolves {
                     if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                         Manager.playerDialogues.add(p.getUniqueId());
                         MessagesUtil.sendDialogues(citeQuestCore, quest, 1, p, npc);
-                        PlayerManager.updatePlayerStep(p.getUniqueId(), quest.getIdentifier(), 2);
+                        PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 2);
                         MessagesUtil.sendEndMessage(p, quest, npc);
                     }
                 } else {

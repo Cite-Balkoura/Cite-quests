@@ -42,19 +42,21 @@ public class SilenceGrow {
             case 1:
                 if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                     ItemStack boneMeal = new ItemStack(Material.BONE_MEAL, 16);
-                    if (p.getInventory().contains(boneMeal)) {
+                    if (p.getInventory().containsAtLeast(new ItemStack(Material.BONE_MEAL), 16)) {
                         if (!Manager.playerDialogues.contains(p.getUniqueId())) {
                             Manager.playerDialogues.add(p.getUniqueId());
-                            p.getInventory().remove(boneMeal);
-                            p.sendMessage("§oVos engrais vous ont été retiré.");
+                            p.getInventory().removeItem(boneMeal);
+                            p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§f§oVos engrais vous ont été retiré.");
                             MessagesUtil.sendDialogues(citeQuestCore, quest, 1, p, npc);
                             PlayerManager.updatePlayerStep(p.getUniqueId(), ID, 2);
                             MessagesUtil.sendEndMessage(p, quest, npc);
+
                         }
                     } else {
                         MessagesUtil.sendRPMessage("%npc%§7: §f\"Ramène moi 16 engrais s'il te plait\"", p, npc);
                     }
                 }
+                break;
             case 2:
                 p.sendMessage(MessagesEnum.PREFIX_CMD.getText() + "§aVous avez déjà terminé cette quête !");
                 break;
